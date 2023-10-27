@@ -6,7 +6,7 @@ import { ReactiveComponent } from './pages/reactive/reactive.component';
 const APP_ROUTES: Routes = [
     { path: 'template', component: TemplateComponent },
     { path: 'reactive', component: ReactiveComponent },
-    { path: "**", pathMatch: "full", redirectTo:'template' }
+    { path: "**", pathMatch: "full", redirectTo:'reactive' }
 ];
 
 export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES);
