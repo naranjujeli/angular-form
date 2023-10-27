@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { ValidatorsService } from 'src/app/services/validators.service';
+import { __classPrivateFieldGet } from 'tslib';
 
 @Component({
   selector: 'app-reactive',
@@ -13,6 +14,7 @@ export class ReactiveComponent implements OnInit {
               private fernandezValidators: ValidatorsService) {
     this.initializeForm();
     this.loadDataToForm();
+    this.initializeListeners();
   }
   
   ngOnInit(): void {
@@ -26,6 +28,7 @@ export class ReactiveComponent implements OnInit {
       lastName: ["", [Validators.required, this.fernandezValidators.notFernandez]],
       // email: ['', Validators.email]
       email: ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9-]+[.]+[a-z]{2,3}$') ]],
+      username: ["", , this.fernandezValidators.usernameExists ],
       password1: ["", [ Validators.required, Validators.minLength(6) ]],
       password2: ["", [ Validators.required ]],
       address: this.formBuilder.group({
@@ -55,6 +58,21 @@ export class ReactiveComponent implements OnInit {
       lastName: "It's me you're looking for",
       email: 'icanseeit@inyour.eyes'
     })
+  }
+
+  initializeListeners() {
+    // this.form.valueChanges.subscribe((value) => {
+    //   console.log(value);
+    // })
+
+    // this.form.statusChanges.subscribe((status) => {
+    //   console.log({ status });
+    // })
+    
+    this.form.get('username').valueChanges.subscribe(console.log);
+    
+    this.form.get('username').statusChanges.subscribe(console.log);
+
   }
 
   addHobby() {
@@ -90,6 +108,10 @@ export class ReactiveComponent implements OnInit {
     return this.form.get('address.city').invalid && this.form.get('address.city').touched;
   }
 
+  get usernameNotValid() {
+    return this.form.get('username').invalid && this.form.get('username').touched;
+  }
+  
   get password1NotValid() {
     return this.form.get('password1').invalid && this.form.get('password1').touched;
   }
